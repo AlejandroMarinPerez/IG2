@@ -5,6 +5,7 @@
 #include <SDL_keycode.h>
 #include <OgreMeshManager.h>
 #include "Toy.h"
+#include "Plano.h"
 #include "Sinbad.h"
 
 using namespace Ogre;
@@ -67,14 +68,29 @@ void IG2App::setupScene(void)
 
   mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCam");
   mCamNode->attachObject(cam);
+  //mCamNode->setDirection(Ogre::Vector3(0, 0, -1));
 
   mCamNode->setPosition(0, 0, 1000);
   mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
-  //mCamNode->setDirection(Ogre::Vector3(0, 0, -1));  
-  
+
   // and tell it to render into the main window
   Viewport* vp = getRenderWindow()->addViewport(cam);
   //vp->setBackgroundColour(Ogre::ColourValue(1, 1, 1));
+
+  //Creamos la cámara del reflejo
+  Camera* camRef = mSM->createCamera("RefCam");
+  camRef->setNearClipDistance(1);
+  camRef->setFarClipDistance(10000);
+  camRef->setAutoAspectRatio(true);
+
+  //Añadimos la cámara del reflejo al nodo
+  mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCamRef");
+  mCamNode->attachObject(camRef);
+
+  mCamNode->setPosition(0, 0, 1000);
+  mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+
+
 
   //------------------------------------------------------------------------
 
@@ -98,11 +114,17 @@ void IG2App::setupScene(void)
   //PLANO
 
   MeshManager::getSingleton().createPlane("mPlane1080x800.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::UNIT_Y, 0), 1080, 800, 100, 80, true, 1, 1.0, 1.0, Vector3::NEGATIVE_UNIT_Z);
-  Ogre::Entity* plane = mSM->createEntity("mPlane1080x800.mesh");
-  plane->setMaterialName("IG2App/PlaneMaterial");
 
   mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPlane");
-  mPlaneNode->attachObject(plane);
+  Plano* plane = new Plano(mPlaneNode);
+  
+  MovablePlane* mp = new MovablePlane(Vector3::UNIT_Y, 0);
+  mPlaneNode->attachObject(mp);
+
+  camRef->enableReflection(mp);
+  camRef->enableCustomNearClipPlane(mp);
+
+
 
   //------------------------------------------------------------------------
 

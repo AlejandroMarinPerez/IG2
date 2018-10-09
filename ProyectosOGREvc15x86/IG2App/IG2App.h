@@ -6,6 +6,7 @@
 #include <OgreSceneNode.h>
 #include <OgreTrays.h>
 #include <OgreCameraMan.h>
+#include <OgreMovablePlane.h>
 
 
 class IG2App : public  OgreBites::IG2ApplicationContext, OgreBites::InputListener 
@@ -28,6 +29,7 @@ protected:
   Ogre::SceneNode* mSinbadNode = nullptr;
   Ogre::SceneNode* mPlaneNode = nullptr;
   Ogre::SceneNode* mToyNode = nullptr;
+  Ogre::SceneNode* mPanelNode = nullptr;
 
   OgreBites::CameraMan* mCamMgr = nullptr;
  
