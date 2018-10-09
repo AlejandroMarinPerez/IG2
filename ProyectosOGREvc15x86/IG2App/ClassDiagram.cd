@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IG2App" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAgEAAQAgBAAQABgAAAAAAAAAAAEBAAEAAAYA=</HashCode>
+      <FileName>IG2App.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Toy" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAABAAAQAAIAgAASEAAEAAgAQQ=</HashCode>
+      <FileName>Toy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntidadesClass" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntidadesClass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sinbad" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAgAAAAAAIA=</HashCode>
+      <FileName>Sinbad.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OgreBites::IG2ApplicationContext" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCAgACjACABgAgRCEACGUAMhBAAkCiBAAACCEAIQAA=</HashCode>
+      <FileName>IG2ApplicationContext.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="OgreBites::NativeWindowPair" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>IG2ApplicationContext.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="OgreBites::NativeWindowType" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IG2ApplicationContext.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

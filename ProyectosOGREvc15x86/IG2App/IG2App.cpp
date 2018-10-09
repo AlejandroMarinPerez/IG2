@@ -4,6 +4,8 @@
 #include <OgreInput.h>
 #include <SDL_keycode.h>
 #include <OgreMeshManager.h>
+#include "Toy.h"
+#include "Sinbad.h"
 
 using namespace Ogre;
 
@@ -13,7 +15,9 @@ bool IG2App::keyPressed(const OgreBites::KeyboardEvent& evt)
   {
     getRoot()->queueEndRendering();
   }
-  //else if (evt.keysym.sym == SDLK_???)
+  else if (evt.keysym.sym == SDLK_p) {
+	  mPlaneNode->pitch(Ogre::Degree(1.0));
+  }
   
   return true;
 }
@@ -80,8 +84,8 @@ void IG2App::setupScene(void)
   luz->setType(Ogre::Light::LT_DIRECTIONAL);
   luz->setDiffuseColour(0.75, 0.75, 0.75);
 
-  mLightNode = mSM->getRootSceneNode()->createChildSceneNode("nLuz");
-  //mLightNode = mCamNode->createChildSceneNode("nLuz");
+  //mLightNode = mSM->getRootSceneNode()->createChildSceneNode("nLuz");
+  mLightNode = mCamNode->createChildSceneNode("nLuz");
   mLightNode->attachObject(luz);
 
   mLightNode->setDirection(Ogre::Vector3(0, 0, -1));  //vec3.normalise();
@@ -91,18 +95,41 @@ void IG2App::setupScene(void)
 
   // finally something to render
 
-  Ogre::Entity* ent = mSM->createEntity("Sinbad.mesh");
+  //PLANO
 
-  mSinbadNode = mSM->getRootSceneNode()->createChildSceneNode("nSinbad");
-  mSinbadNode->attachObject(ent);
+  MeshManager::getSingleton().createPlane("mPlane1080x800.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::UNIT_Y, 0), 1080, 800, 100, 80, true, 1, 1.0, 1.0, Vector3::NEGATIVE_UNIT_Z);
+  Ogre::Entity* plane = mSM->createEntity("mPlane1080x800.mesh");
+  plane->setMaterialName("IG2App/PlaneMaterial");
 
-  //mSinbadNode->setPosition(400, 100, -300);
-  mSinbadNode->setScale(20, 20, 20);
+  mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPlane");
+  mPlaneNode->attachObject(plane);
+
+  //------------------------------------------------------------------------
+
+  //OGRO
+
+  
+  //mSinbadNode = mSM->getRootSceneNode()->createChildSceneNode("nSinbad");
+  mSinbadNode = mPlaneNode->createChildSceneNode("nSinbad");
+  Sinbad* sinbad = new Sinbad(mSinbadNode);
+  //addInputListener(sinbad);
+  
+  
   //mSinbadNode->yaw(Ogre::Degree(-45));
   //mSinbadNode->showBoundingBox(true);
   //mSinbadNode->setVisible(false);
 
   //------------------------------------------------------------------------
+
+  //TOY
+
+  mToyNode = mPlaneNode->createChildSceneNode("nToy");
+  Toy* toy = new Toy(mToyNode);
+  addInputListener(toy);
+
+  //------------------------------------------------------------------------
+
+  //Esto mueve la cámara. Hace que se gire con el ratón
 
   mCamMgr = new OgreBites::CameraMan(mCamNode);
   addInputListener(mCamMgr);
@@ -112,6 +139,8 @@ void IG2App::setupScene(void)
   //mCamMgr->setYawPitchDist(Radian(0), Degree(30), 100);
 
   //------------------------------------------------------------------------
+
+ 
 
 }
 
