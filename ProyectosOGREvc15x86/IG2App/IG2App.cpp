@@ -10,6 +10,8 @@
 
 using namespace Ogre;
 
+
+
 bool IG2App::keyPressed(const OgreBites::KeyboardEvent& evt)
 {
   if (evt.keysym.sym == SDLK_ESCAPE)
@@ -59,36 +61,39 @@ void IG2App::setup(void)
 
 void IG2App::setupScene(void)
 {
-  // create the camera
-  Camera* cam = mSM->createCamera("Cam");
-  cam->setNearClipDistance(1); 
-  cam->setFarClipDistance(10000);
-  cam->setAutoAspectRatio(true);
-  //cam->setPolygonMode(Ogre::PM_WIREFRAME); 
+    Camera* camRef = mSM->createCamera("RefCam");
+	camRef->setNearClipDistance(1);
+	camRef->setFarClipDistance(10000);
+	camRef->setAutoAspectRatio(true);
 
-  mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCam");
-  mCamNode->attachObject(cam);
-  //mCamNode->setDirection(Ogre::Vector3(0, 0, -1));
+	//Añadimos la cámara del reflejo al nodo
+	mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCamRef");
+	mCamNode->attachObject(camRef);
 
-  mCamNode->setPosition(0, 0, 1000);
-  mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
-  // and tell it to render into the main window
-  Viewport* vp = getRenderWindow()->addViewport(cam);
-  //vp->setBackgroundColour(Ogre::ColourValue(1, 1, 1));
+	// create the camera
+	Camera* cam = mSM->createCamera("Cam");
+	cam->setNearClipDistance(1); 
+	cam->setFarClipDistance(10000);
+	cam->setAutoAspectRatio(true);
+	//cam->setPolygonMode(Ogre::PM_WIREFRAME); 
 
-  //Creamos la cámara del reflejo
-  Camera* camRef = mSM->createCamera("RefCam");
-  camRef->setNearClipDistance(1);
-  camRef->setFarClipDistance(10000);
-  camRef->setAutoAspectRatio(true);
+	mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCam");
+	mCamNode->attachObject(cam);
+	//mCamNode->setDirection(Ogre::Vector3(0, 0, -1));
 
-  //Añadimos la cámara del reflejo al nodo
-  mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCamRef");
-  mCamNode->attachObject(camRef);
+	mCamNode->setPosition(0, 0, 1000);
+	mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+	
+	// and tell it to render into the main window
+	Viewport* vp = getRenderWindow()->addViewport(cam);
+	//vp->setBackgroundColour(Ogre::ColourValue(1, 1, 1));
 
-  mCamNode->setPosition(0, 0, 1000);
-  mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+	//Creamos la cámara del reflejo
+  
+
+	mCamNode->setPosition(0, 0, 1000);
+	mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
 
 
@@ -118,11 +123,38 @@ void IG2App::setupScene(void)
   mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPlane");
   Plano* plane = new Plano(mPlaneNode);
   
-  MovablePlane* mp = new MovablePlane(Vector3::UNIT_Y, 0);
+  //Reflejo
+  //Creamos el panel que refleje
+  MovablePlane* mp = new MovablePlane(Vector3::UNIT_X, 0);
   mPlaneNode->attachObject(mp);
+
+  Entity* ent = mSM->createEntity(mp->getName(), "mPlane1080x800.mesh");
+
+  ent->setMaterialName("Reflex");
+  ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("TexturaPlano2.jpg");
 
   camRef->enableReflection(mp);
   camRef->enableCustomNearClipPlane(mp);
+
+  //Textura para el reflejo
+  TexturePtr rttTex = TextureManager::getSingleton().createManual("texRtt", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, (Real)mWindow.render->getViewport(0)->getActualWidth(),
+	  (Real)cam->getViewport()->getActualHeight(), 0, PF_R8G8B8, TU_RENDERTARGET);
+
+  //Añadimos la cámara del reflejo como viewport
+  RenderTexture* renderTexture = rttTex->getBuffer()->getRenderTarget();
+  Viewport* vpt = renderTexture->addViewport(camRef);
+
+  vpt->setClearEveryFrame(true);
+  vpt->setBackgroundColour(ColourValue::Black); 
+
+  //4, añadir la unidad de textura al panel
+  TextureUnitState* tu = ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("texRtt");
+
+  tu->setColourOperation(LBO_MODULATE);
+  tu->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
+  tu->setProjectiveTexturing(true, camRef);
+
+  renderTexture->addListener(plane);
 
 
 

@@ -7,9 +7,18 @@
 #include <OgreTrays.h>
 #include <OgreCameraMan.h>
 #include <OgreMovablePlane.h>
+#include <OgreTextureManager.h>
+#include <OgreRenderTexture.h>
+#include <OgreTexture.h>
+#include <OgreRenderSystem.h>
+#include <OgreHardwarePixelBuffer.h>
+#include <OgreSubEntity.h>
+#include <OgreTechnique.h>
+#include <OgreRenderTarget.h>
+#include <OgreRenderTargetListener.h>
 
 
-class IG2App : public  OgreBites::IG2ApplicationContext, OgreBites::InputListener 
+class IG2App : public  OgreBites::IG2ApplicationContext, OgreBites::InputListener
 {
 public:
   explicit IG2App() : IG2ApplicationContext("IG2App") { };  // new -> setup()  

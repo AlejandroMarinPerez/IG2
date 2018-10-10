@@ -10,5 +10,6 @@ class Objetillos : public OgreBites::InputListener
 public:
 	Objetillos() {};
 	~Objetillos() {};
+
 };
 
