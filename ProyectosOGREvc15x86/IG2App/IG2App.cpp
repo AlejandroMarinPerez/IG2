@@ -110,7 +110,7 @@ void IG2App::setupScene(void)
   mLightNode->attachObject(luz);
 
   mLightNode->setDirection(Ogre::Vector3(0, 0, -1));  //vec3.normalise();
-  //lightNode->setPosition(0, 0, 1000);
+  //mLightNode->setPosition(0, 0, 1000);
  
   //------------------------------------------------------------------------
 
@@ -125,13 +125,16 @@ void IG2App::setupScene(void)
   
   //Reflejo
   //Creamos el panel que refleje
-  MovablePlane* mp = new MovablePlane(Vector3::UNIT_X, 0);
-  mPlaneNode->attachObject(mp);
 
-  Entity* ent = mSM->createEntity(mp->getName(), "mPlane1080x800.mesh");
+  Entity* ent = mSM->createEntity("mPlane1080x800.mesh");
+  mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPanel");
+  mPlaneNode->attachObject(ent);
 
-  ent->setMaterialName("Reflex");
+  ent->setMaterialName("IG2App/PlaneMaterial");
   ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("TexturaPlano2.jpg");
+
+  MovablePlane* mp = new MovablePlane(Vector3::UNIT_Y, 0);
+  mPlaneNode->attachObject(mp);
 
   camRef->enableReflection(mp);
   camRef->enableCustomNearClipPlane(mp);
@@ -150,7 +153,7 @@ void IG2App::setupScene(void)
   //4, añadir la unidad de textura al panel
   TextureUnitState* tu = ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("texRtt");
 
-  tu->setColourOperation(LBO_MODULATE);
+  tu->setColourOperation(LBO_ADD);
   tu->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
   tu->setProjectiveTexturing(true, camRef);
 

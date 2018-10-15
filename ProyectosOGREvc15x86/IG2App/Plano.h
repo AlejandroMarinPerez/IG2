@@ -11,7 +11,7 @@ public:
 	~Plano();
 
 	void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt) {
-		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue::Blue);
+		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue::White);
 		//mPlaneNode->getAttachedObject("nPlane")->setVisible(false);
 		mPlaneNode->getAttachedObjects()[0]->setVisible(false);
 	};
