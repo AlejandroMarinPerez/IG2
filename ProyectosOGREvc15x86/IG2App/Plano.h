@@ -11,18 +11,23 @@ public:
 	~Plano();
 
 	void preRenderTargetUpdate(const Ogre::RenderTargetEvent& evt) {
-		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue::White);
-		//mPlaneNode->getAttachedObject("nPlane")->setVisible(false);
 		mPlaneNode->getAttachedObjects()[0]->setVisible(false);
+		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue(0.10, 0.10, 0.25, 0.10));
+		//mPlaneNode->getAttachedObject("nPlane")->setVisible(false);
 	};
 
 	void postRenderTargetUpdate(const Ogre::RenderTargetEvent& evt) {
-		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue::White);
-		//mPlaneNode->getAttachedObject("nPlane")->setVisible(true);
 		mPlaneNode->getAttachedObjects()[0]->setVisible(true);
+		mPlaneNode->getCreator()->setAmbientLight(Ogre::ColourValue::ZERO);
+		//mPlaneNode->getAttachedObject("nPlane")->setVisible(true);
 	};
+
+	Ogre::Entity* getEntityPlane() {
+		return planeEnt;
+	}
 
 protected: 
 	Ogre::SceneNode* mPlaneNode;
+	Ogre::Entity* planeEnt = nullptr;
 };
 

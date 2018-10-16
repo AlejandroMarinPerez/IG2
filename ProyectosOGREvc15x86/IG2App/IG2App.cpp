@@ -7,6 +7,7 @@
 #include "Toy.h"
 #include "Plano.h"
 #include "Sinbad.h"
+#include "Bomb.h"
 
 using namespace Ogre;
 
@@ -61,16 +62,8 @@ void IG2App::setup(void)
 
 void IG2App::setupScene(void)
 {
-    Camera* camRef = mSM->createCamera("RefCam");
-	camRef->setNearClipDistance(1);
-	camRef->setFarClipDistance(10000);
-	camRef->setAutoAspectRatio(true);
 
-	//Añadimos la cámara del reflejo al nodo
-	mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCamRef");
-	mCamNode->attachObject(camRef);
-
-
+	
 	// create the camera
 	Camera* cam = mSM->createCamera("Cam");
 	cam->setNearClipDistance(1); 
@@ -78,8 +71,19 @@ void IG2App::setupScene(void)
 	cam->setAutoAspectRatio(true);
 	//cam->setPolygonMode(Ogre::PM_WIREFRAME); 
 
+	Camera* camRef = mSM->createCamera("RefCam");
+	camRef->setNearClipDistance(1);
+	camRef->setFarClipDistance(10000);
+	camRef->setAutoAspectRatio(true);
+
+
+
+	//Añadimos la cámara del reflejo al nodo
 	mCamNode = mSM->getRootSceneNode()->createChildSceneNode("nCam");
 	mCamNode->attachObject(cam);
+	mCamNode->attachObject(camRef);
+
+
 	//mCamNode->setDirection(Ogre::Vector3(0, 0, -1));
 
 	mCamNode->setPosition(0, 0, 1000);
@@ -116,30 +120,31 @@ void IG2App::setupScene(void)
 
   // finally something to render
 
-  //PLANO
+  //PLANO y REFLEJO///////////////////////////////////////
 
   MeshManager::getSingleton().createPlane("mPlane1080x800.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::UNIT_Y, 0), 1080, 800, 100, 80, true, 1, 1.0, 1.0, Vector3::NEGATIVE_UNIT_Z);
 
   mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPlane");
   Plano* plane = new Plano(mPlaneNode);
   
-  //Reflejo
-  //Creamos el panel que refleje
+  //Reflejo del plano 
 
-  Entity* ent = mSM->createEntity("mPlane1080x800.mesh");
+  /*Entity* ent = mSM->createEntity("mPlane1080x800.mesh");
   mPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nPanel");
-  mPlaneNode->attachObject(ent);
+  mPlaneNode->attachObject(ent);*/
 
-  ent->setMaterialName("IG2App/PlaneMaterial");
-  ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("TexturaPlano2.jpg");
+  plane->getEntityPlane()->setMaterialName("IG2App/PlaneMaterial");
+  plane->getEntityPlane()->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("TexturaPlano2.jpg");
 
+  //Añadimos la cámara y demás/////////////////////////////////
   MovablePlane* mp = new MovablePlane(Vector3::UNIT_Y, 0);
   mPlaneNode->attachObject(mp);
 
   camRef->enableReflection(mp);
   camRef->enableCustomNearClipPlane(mp);
+  //////////////////////////////////////////////////////////////
 
-  //Textura para el reflejo
+  //Textura para el reflejo (Parte 3)/////////////////////////
   TexturePtr rttTex = TextureManager::getSingleton().createManual("texRtt", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, (Real)mWindow.render->getViewport(0)->getActualWidth(),
 	  (Real)cam->getViewport()->getActualHeight(), 0, PF_R8G8B8, TU_RENDERTARGET);
 
@@ -149,13 +154,16 @@ void IG2App::setupScene(void)
 
   vpt->setClearEveryFrame(true);
   vpt->setBackgroundColour(ColourValue::Black); 
+  /////////////////////////////////////////////////////////////
 
-  //4, añadir la unidad de textura al panel
-  TextureUnitState* tu = ent->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("texRtt");
+
+  //4, añadir la unidad de textura al panel///////////////////
+  TextureUnitState* tu = plane->getEntityPlane()->getSubEntities()[0]->getMaterial()->getTechniques()[0]->getPasses()[0]->createTextureUnitState("texRtt");
 
   tu->setColourOperation(LBO_ADD);
   tu->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
   tu->setProjectiveTexturing(true, camRef);
+  //////////////////////////////////////////////////////////////
 
   renderTexture->addListener(plane);
 
@@ -183,6 +191,10 @@ void IG2App::setupScene(void)
   mToyNode = mPlaneNode->createChildSceneNode("nToy");
   Toy* toy = new Toy(mToyNode);
   addInputListener(toy);
+
+  mBombNode = mSM->getRootSceneNode()->createChildSceneNode("nBomb");
+  Bomb* bomba = new Bomb(mBombNode);
+  mBombNode->setInitialState();
 
   //------------------------------------------------------------------------
 

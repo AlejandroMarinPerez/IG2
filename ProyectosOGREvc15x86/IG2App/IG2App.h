@@ -39,6 +39,7 @@ protected:
   Ogre::SceneNode* mPlaneNode = nullptr;
   Ogre::SceneNode* mToyNode = nullptr;
   Ogre::SceneNode* mPanelNode = nullptr;
+  Ogre::SceneNode* mBombNode = nullptr;
 
   OgreBites::CameraMan* mCamMgr = nullptr;
  

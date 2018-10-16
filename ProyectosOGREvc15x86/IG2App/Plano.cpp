@@ -6,11 +6,13 @@ Plano::Plano(Ogre::SceneNode* plano)
 {
 	mPlaneNode = plano;
 
-	Ogre::Entity* plane = plano->getCreator()->createEntity("mPlane1080x800.mesh");
+	Ogre::Entity* plane = plano->getCreator()->createEntity("entPlane", "mPlane1080x800.mesh");
 
 	mPlaneNode->attachObject(plane);
 
-	plane->setMaterialName("IG2App/PlaneMaterial");
+	planeEnt = plane;
+
+	//plane->setMaterialName("IG2App/PlaneMaterial");
 
 }
 
