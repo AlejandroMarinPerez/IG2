@@ -5,8 +5,8 @@
 Bomb::Bomb(Ogre::SceneNode* bombNode)
 {
 	//Atributes
-	int duracion = 5;
-	int longitud = 50;
+	int duracion = 16;
+	int longitud = 25;
 	Ogre::Real longitudPaso = duracion / 4.0;
 	Ogre::TransformKeyFrame * kf;
 
@@ -17,7 +17,8 @@ Bomb::Bomb(Ogre::SceneNode* bombNode)
 
 	mBombNode->attachObject(bomb);
 	mBombNode->setScale(0.5, 0.5, 0.5);
-	mBombNode->setPosition(300, 0, 200);
+	mBombNode->setPosition(0, 0, 0);
+	mBombNode->setInitialState();
 
 	bomb->setMaterialName("IG2App/Bomb");
 

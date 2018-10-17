@@ -177,7 +177,7 @@ void IG2App::setupScene(void)
   //mSinbadNode = mSM->getRootSceneNode()->createChildSceneNode("nSinbad");
   mSinbadNode = mPlaneNode->createChildSceneNode("nSinbad");
   Sinbad* sinbad = new Sinbad(mSinbadNode);
-  //addInputListener(sinbad);
+  addInputListener(sinbad);
   
   
   //mSinbadNode->yaw(Ogre::Degree(-45));
@@ -187,14 +187,14 @@ void IG2App::setupScene(void)
   //------------------------------------------------------------------------
 
   //TOY
-
+  /*
   mToyNode = mPlaneNode->createChildSceneNode("nToy");
   Toy* toy = new Toy(mToyNode);
-  addInputListener(toy);
+  addInputListener(toy);*/
 
   mBombNode = mSM->getRootSceneNode()->createChildSceneNode("nBomb");
   Bomb* bomba = new Bomb(mBombNode);
-  mBombNode->setInitialState();
+  addInputListener(bomba);
 
   //------------------------------------------------------------------------
 
