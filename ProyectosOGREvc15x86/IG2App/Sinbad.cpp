@@ -6,9 +6,9 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad)
 {
 	//Atributes
 	mSinbadNode = mSinbad;
-	int duracion = 16;
+	int duracion = 20;
 	int longitud = 600;
-	//int longitudX = 800;
+	int longitudX = 800;
 	Ogre::Real longitudPaso = duracion / 8.0;
 	Ogre::TransformKeyFrame * kf;
 	keyframePos = Ogre::Vector3(0, 0, 0);
@@ -18,11 +18,17 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad)
 
 	//Function
 	Ogre::Entity* ent = mSinbadNode->getCreator()->createEntity("Sinbad.mesh");
+	Ogre::Entity* sword1 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
+	Ogre::Entity* sword2 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
+
+	ent->attachObjectToBone("Handle.R", sword1);
+	ent->attachObjectToBone("Handle.L", sword2);
 	mSinbadNode->attachObject(ent);
 
 	mSinbadNode->setPosition(400, 100, -300);
 	mSinbadNode->setScale(20, 20, 20);
 	mSinbadNode->setInitialState();
+
 	
 	animation = mSinbad->getCreator()->createAnimation("anMov", duracion);
 	Ogre::NodeAnimationTrack* track = animation->createNodeTrack(0);
@@ -49,7 +55,7 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad)
 
 	//Posicion 3
 	kf = track->createNodeKeyFrame(longitudPaso * 3);
-	keyframePos += Ogre::Vector3::NEGATIVE_UNIT_X * longitud;
+	keyframePos += Ogre::Vector3::NEGATIVE_UNIT_X * longitudX;
 	kf->setTranslate(keyframePos);
 	kf->setRotation(quat);
 
@@ -77,7 +83,7 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad)
 
 	//Posicion 7
 	kf = track->createNodeKeyFrame(longitudPaso * 7);
-	keyframePos += Ogre::Vector3::UNIT_X * longitud;
+	keyframePos += Ogre::Vector3::UNIT_X * longitudX;
 	kf->setTranslate(keyframePos);
 	kf->setRotation(quat3);
 
@@ -89,6 +95,20 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad)
 	animationState->setLoop(true);
 	animationState->setEnabled(true);
 
+	dance = ent->getAnimationState("Dance");
+
+	dance->setLoop(true);
+	dance->setEnabled(false);
+
+	runBase = ent->getAnimationState("RunBase");
+
+	runBase->setLoop(true);
+	runBase->setEnabled(true);
+
+	runTop = ent->getAnimationState("RunTop");
+
+	runTop->setLoop(true);
+	runTop->setEnabled(true);
 }
 
 
@@ -96,7 +116,39 @@ Sinbad::~Sinbad()
 {
 }
 
+bool Sinbad::keyPressed(const OgreBites::KeyboardEvent & evt)
+{
+	switch (evt.keysym.sym) {
+	case SDLK_r:
+
+		animationState->setEnabled(!dancing);
+		dance->setEnabled(dancing);
+		runBase->setEnabled(!dancing);
+		runTop->setEnabled(!dancing);
+		dancing = !dancing;
+		
+		return true;
+
+	}
+
+	return false;
+}
+
 void Sinbad::frameRendered(const Ogre::FrameEvent & evt)
 {
-	animationState->addTime(evt.timeSinceLastFrame);
+	if (animationState->getEnabled()) {
+		animationState->addTime(evt.timeSinceLastFrame);
+	}
+
+	if (dance->getEnabled()) {
+		dance->addTime(evt.timeSinceLastFrame);
+	}
+
+	if (runBase->getEnabled()) {
+		runBase->addTime(evt.timeSinceLastFrame);
+	}
+
+	if (runTop->getEnabled()) {
+		runTop->addTime(evt.timeSinceLastFrame);
+	}
 }
