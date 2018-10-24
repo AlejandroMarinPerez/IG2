@@ -167,16 +167,23 @@ void IG2App::setupScene(void)
 
   renderTexture->addListener(plane);
 
+  //------------------------------------------------------------------------
 
+  //BOMB
+
+
+  mBombNode = mSM->getRootSceneNode()->createChildSceneNode("nBomb");
+  Bomb* bomba = new Bomb(mBombNode);
+  addInputListener(bomba);
 
   //------------------------------------------------------------------------
 
   //OGRO
 
-  
+  Ogre::Vector3 bombPos = mBombNode->getPosition();
   //mSinbadNode = mSM->getRootSceneNode()->createChildSceneNode("nSinbad");
   mSinbadNode = mPlaneNode->createChildSceneNode("nSinbad");
-  Sinbad* sinbad = new Sinbad(mSinbadNode);
+  Sinbad* sinbad = new Sinbad(mSinbadNode, bombPos);
   addInputListener(sinbad);
   
   
@@ -191,11 +198,6 @@ void IG2App::setupScene(void)
   mToyNode = mPlaneNode->createChildSceneNode("nToy");
   Toy* toy = new Toy(mToyNode);
   addInputListener(toy);*/
-
-  mBombNode = mSM->getRootSceneNode()->createChildSceneNode("nBomb");
-  Bomb* bomba = new Bomb(mBombNode);
-  addInputListener(bomba);
-
   //------------------------------------------------------------------------
 
   //Esto mueve la cámara. Hace que se gire con el ratón
