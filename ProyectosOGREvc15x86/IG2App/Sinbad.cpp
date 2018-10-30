@@ -140,7 +140,7 @@ Ogre::Vector3 Sinbad::calculateDir()
 {
 	Ogre::Vector3 temp = mSinbadNode->getPosition();
 
-	temp -= bombPos;
+	temp = bombPos - temp;
 
 	return temp;
 }
@@ -149,10 +149,14 @@ void Sinbad::creaAnimacionBomba()
 {
 	//Atributos
 	int duracionBomb = 10;
-	Ogre::Real longitudPasoBomb = duracionBomb / 4.0;
+	Ogre::Real longitudPasoBomb = duracionBomb / 5.0;
+	Ogre::Real longitudPasoBomb2 = 1000;
 	Ogre::Vector3 src(0, 0, 1);
 	int longitud = 300;
+	int longitudInf = 1000000;
 	Ogre::TransformKeyFrame * kf2;
+	Ogre::Vector3 temp;
+	Ogre::Quaternion orRot;
 
 	//Funcion
 	//---------------------------------------------------------------------------
@@ -161,6 +165,7 @@ void Sinbad::creaAnimacionBomba()
 
 	animationBomb = mSinbadNode->getCreator()->createAnimation("anMovBomb", duracionBomb);
 	Ogre::NodeAnimationTrack* track2 = animationBomb->createNodeTrack(0);
+	orRot = mSinbadNode->getOrientation();
 
 	keyframePos = mSinbadNode->getPosition();
 
@@ -169,27 +174,46 @@ void Sinbad::creaAnimacionBomba()
 	//Posicion 0
 	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 0);
 	kf2->setTranslate(keyframePos);
-
+	kf2->setRotation(orRot);
+	runBase->setEnabled(true);
+	runTop->setEnabled(true);
 
 	//Posicion 1
+	temp = calculateDir();
 	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 1);
 	keyframePos += Ogre::Vector3::UNIT_Z;
 	kf2->setTranslate(keyframePos);
-	Ogre::Quaternion quat4 = src.getRotationTo(calculateDir());
+	Ogre::Quaternion quat4 = src.getRotationTo(temp);
 	kf2->setRotation(quat4);
 
-
 	//Posicion 2
+	temp.normalise();
 	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 2);
-	keyframePos += calculateDir() * longitud;
+	keyframePos += temp * longitud;
+	kf2->setTranslate(keyframePos); 
+	kf2->setRotation(quat4);
+
+	//Posicion 3
+	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 3);
+	keyframePos += Ogre::Vector3::UNIT_Z;
+	keyframePos.y = 0;
 	kf2->setTranslate(keyframePos);
+	Ogre::Quaternion quat5 = src.getRotationTo(Ogre::Vector3(0, 1, 0));
+	kf2->setRotation(quat5);
+
+
+	//Posicion 4
+	kf2 = track2->createNodeKeyFrame(longitudPasoBomb2 * 4);
+	keyframePos += Ogre::Vector3::UNIT_X * longitudInf;
+	kf2->setTranslate(keyframePos);
+	kf2->setRotation(quat5);
 
 	animationBomb->setInterpolationMode(Ogre::Animation::IM_LINEAR);
 
 	animationBombState = mSinbadNode->getCreator()->createAnimationState("anMovBomb");
 
 	animationBombState->setLoop(false);
-	animationBombState->setEnabled(false);
+	animationBombState->setEnabled(true);
 
 	//---------------------------------------------------------------------------
 	//Animacion movimiento hacia la Bomba FIN------------------------------------
@@ -218,9 +242,6 @@ bool Sinbad::keyPressed(const OgreBites::KeyboardEvent & evt)
 
 		animationState->setEnabled(false);
 		dance->setEnabled(false);
-		runBase->setEnabled(false);
-		runTop->setEnabled(false);
-		animationBombState->setEnabled(true);
 
 		return true;
 

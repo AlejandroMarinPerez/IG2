@@ -4284,11 +4284,14 @@ c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\bites\ogresgtechniqu
   c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\ogrematerialmanager.h(69): note: see declaration of 'Ogre::MaterialManager::Listener'
   c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\bites\ogresgtechniqueresolverlistener.h(47): note: see declaration of 'OgreBites::SGTechniqueResolverListener'
 c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(12): warning C4244: 'initializing': conversion from 'double' to 'Ogre::Real', possible loss of data
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(33): warning C4244: 'argument': conversion from 'int' to 'Ogre::Real', possible loss of data
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(46): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(58): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(72): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(86): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(42): warning C4244: 'argument': conversion from 'int' to 'Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(55): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(67): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(81): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(95): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(152): warning C4244: 'initializing': conversion from 'double' to 'Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(162): warning C4244: 'argument': conversion from 'int' to 'Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\sinbad.cpp(184): warning C4244: 'argument': conversion from 'int' to 'const Ogre::Real', possible loss of data
   Toy.cpp
 c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\rtshadersystem\ogreshaderprogrammanager.h(208): warning C4251: 'Ogre::RTShader::ProgramManager::mCpuProgramsList': class 'std::set<Ogre::RTShader::Program *,std::less<_Kty>,std::allocator<_Kty>>' needs to have dll-interface to be used by clients of class 'Ogre::RTShader::ProgramManager'
           with
