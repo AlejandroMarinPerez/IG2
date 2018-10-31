@@ -16,6 +16,8 @@
 #include <OgreTechnique.h>
 #include <OgreRenderTarget.h>
 #include <OgreRenderTargetListener.h>
+#include <OgreParticleSystem.h>
+#include <OgreSphere.h>
 
 
 class IG2App : public  OgreBites::IG2ApplicationContext, OgreBites::InputListener
@@ -30,6 +32,7 @@ protected:
   virtual void setupScene();
 
   virtual bool keyPressed(const OgreBites::KeyboardEvent& evt);  // InputListener
+  void frameRendered(const Ogre::FrameEvent& evt);
       
   Ogre::SceneManager* mSM = nullptr;
   OgreBites::TrayManager* mTrayMgr = nullptr;    
@@ -40,6 +43,12 @@ protected:
   Ogre::SceneNode* mToyNode = nullptr;
   Ogre::SceneNode* mPanelNode = nullptr;
   Ogre::SceneNode* mBombNode = nullptr;
+  Ogre::ParticleSystem* pSys = nullptr;
+  Bomb* bomba = nullptr;
+  Toy* toy = nullptr;
+
+  Ogre::Sphere toySphere;
+  Ogre::Sphere bombSphere;
 
   OgreBites::CameraMan* mCamMgr = nullptr;
  

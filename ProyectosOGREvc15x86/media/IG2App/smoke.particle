@@ -1,6 +1,6 @@
-particle _system Smoke
+particle_system Smoke
 { //p. s. attributes
-    material         Smoke
+    material         IG2App/Smoke
     particle_width   35
     particle_height  35
     quota            500
@@ -12,7 +12,7 @@ particle _system Smoke
     { //e. attributes
         direction      0 1 0
         angle          35
-        emission_rate  15
+        emission_rate  100
         time_to_live   4
         velocity_min   50
         velocity_max   80

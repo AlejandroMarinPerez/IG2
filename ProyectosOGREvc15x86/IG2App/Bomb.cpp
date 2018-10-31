@@ -2,7 +2,7 @@
 
 
 
-Bomb::Bomb(Ogre::SceneNode* bombNode)
+Bomb::Bomb(Ogre::SceneNode* bombNode, Ogre::ParticleSystem* pSysOr)
 {
 	//Atributes
 	int duracion = 16;
@@ -21,6 +21,14 @@ Bomb::Bomb(Ogre::SceneNode* bombNode)
 	mBombNode->setInitialState();
 
 	bomb->setMaterialName("IG2App/Bomb");
+
+	pSys = pSysOr;
+
+	mBombNode->attachObject(pSys);
+
+	pSys->setEmitting(false);
+
+	pSys->setMaterialName("IG2App/Smoke");
 
 	animation = bombNode->getCreator()->createAnimation("anVaiven", duracion);
 	Ogre::NodeAnimationTrack* track = animation->createNodeTrack(0);
@@ -69,4 +77,18 @@ Bomb::~Bomb()
 void Bomb::frameRendered(const Ogre::FrameEvent & evt)
 {
 	animationState->addTime(evt.timeSinceLastFrame);
+}
+
+bool Bomb::keyPressed(const OgreBites::KeyboardEvent & evt)
+{
+	switch (evt.keysym.sym) {
+	case SDLK_b:
+
+		pSys->setEmitting(true);
+
+		return true;
+			   
+	}
+
+	return false;
 }

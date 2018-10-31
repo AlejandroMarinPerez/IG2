@@ -4,10 +4,10 @@
 #include <OgreInput.h>
 #include <SDL_keycode.h>
 #include <OgreMeshManager.h>
-#include "Toy.h"
 #include "Plano.h"
 #include "Sinbad.h"
 #include "Bomb.h"
+#include "Toy.h"
 
 using namespace Ogre;
 
@@ -169,11 +169,13 @@ void IG2App::setupScene(void)
 
   //------------------------------------------------------------------------
 
+
   //BOMB
 
+  pSys = mSM->createParticleSystem("parSys", "Smoke");
 
   mBombNode = mSM->getRootSceneNode()->createChildSceneNode("nBomb");
-  Bomb* bomba = new Bomb(mBombNode);
+  bomba = new Bomb(mBombNode, pSys);
   addInputListener(bomba);
 
   //------------------------------------------------------------------------
@@ -194,10 +196,15 @@ void IG2App::setupScene(void)
   //------------------------------------------------------------------------
 
   //TOY
-  /*
+
   mToyNode = mPlaneNode->createChildSceneNode("nToy");
-  Toy* toy = new Toy(mToyNode);
-  addInputListener(toy);*/
+  toy = new Toy(mToyNode);
+  addInputListener(toy);
+
+  toySphere = mToyNode->getAttachedObjects()[0]->getWorldBoundingSphere();
+  bombSphere = mBombNode->getAttachedObjects()[0]->getWorldBoundingSphere();
+
+
   //------------------------------------------------------------------------
 
   //Esto mueve la cámara. Hace que se gire con el ratón
@@ -213,5 +220,13 @@ void IG2App::setupScene(void)
 
  
 
+}
+
+void IG2App::frameRendered(const Ogre::FrameEvent & evt)
+{
+	if (bomba != nullptr && toy != nullptr && toySphere.intersects(bombSphere)) {
+		bomba->haChocado();
+		toy->haChocado();
+	}
 }
 

@@ -11,6 +11,10 @@ public:
 	bool keyPressed(const OgreBites::KeyboardEvent& evt);
 	void frameRendered(const Ogre::FrameEvent& evt);
 
+	void haChocado() {
+		mBB8->getAttachedObjects()[0]->setVisible(false);
+	}
+
 protected:
 	bool moves = false;
 	Ogre::SceneNode* mBB8 = nullptr;

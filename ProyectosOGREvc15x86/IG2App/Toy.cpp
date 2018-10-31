@@ -4,17 +4,18 @@
 
 Toy::Toy(Ogre::SceneNode* mToy)
 {
-
+	Ogre::Real size = 0.5;
+		
 		mBB8 = mToy;
 
-		mBB8->setPosition(0, 100, 0);
+		mBB8->setPosition(100, size*100, 0);
 
 		//Cuerpo
 		Ogre::Entity* entCuer = mBB8->getCreator()->createEntity("sphere.mesh");
 		mCuerpo = mBB8->createChildSceneNode("nCuerpo");
 		mCuerpo->attachObject(entCuer);
 
-		mCuerpo->setScale(1, 1, 1);
+		mCuerpo->setScale(size, size, size);
 
 
 		//Ombligo
@@ -22,8 +23,8 @@ Toy::Toy(Ogre::SceneNode* mToy)
 		mOmbligo = mCuerpo->createChildSceneNode("nOmbl");
 		mOmbligo->attachObject(entOmbl);
 
-		mOmbligo->setScale(0.2, 0.2, 0.2);
-		mOmbligo->setPosition(0, 0, 93);
+		mOmbligo->setScale(size / 5, size / 5, size / 5);
+		mOmbligo->setPosition(0, 0, 100);
 
 		//Cuello
 		/*Ogre::Entity* entCuel = mBB8->getCreator()->createEntity("sphere.mesh");
@@ -38,15 +39,15 @@ Toy::Toy(Ogre::SceneNode* mToy)
 		mCabesa = mBB8->createChildSceneNode("nCabesa");
 		mCabesa->attachObject(entCab);
 
-		mCabesa->setScale(0.5, 0.5, 0.5);
-		mCabesa->setPosition(0, 150, 0);
+		mCabesa->setScale(size / 2, size / 2, size / 2);
+		mCabesa->setPosition(0, size*150, 0);
 
 		//Nariz
 		Ogre::Entity* entNar = mBB8->getCreator()->createEntity("sphere.mesh");
 		mNariz = mCabesa->createChildSceneNode("nNariz");
 		mNariz->attachObject(entNar);
 
-		mNariz->setScale(0.3, 0.3, 0.3);
+		mNariz->setScale(size / 3.3, size / 3.3, size / 3.3);
 		mNariz->setPosition(0, 0, 100);
 }
 
