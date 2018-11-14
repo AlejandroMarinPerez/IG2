@@ -1,0 +1,14 @@
+#versión 330 core
+
+in vec4 vertex;
+
+uniform mat4 transMatrix
+
+out vec4 vColor
+
+void main(void) {
+
+gl_Position = transMatrix * vertex;
+vColor = vec4(1.0, 0.0, 0.0, 1.0);
+
+}
