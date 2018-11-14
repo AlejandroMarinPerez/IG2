@@ -22,10 +22,12 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad, Ogre::Vector3 bomBPos)
 	sword1 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
 	sword2 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
 	sword3 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
+	sword4 = mSinbadNode->getCreator()->createEntity("Sword.mesh");
 
 	ent->attachObjectToBone("Handle.R", sword1);
 	ent->attachObjectToBone("Sheath.L", sword2);
 	ent->attachObjectToBone("Sheath.R", sword3);
+	ent->attachObjectToBone("Handle.L", sword4);
 	mSinbadNode->attachObject(ent);
 
 	//mSinbadNode->setPosition(400, 100, -300);
@@ -33,6 +35,7 @@ Sinbad::Sinbad(Ogre::SceneNode* mSinbad, Ogre::Vector3 bomBPos)
 	mSinbadNode->setInitialState();
 	sword3->setVisible(dancing);
 	sword1->setVisible(!dancing);
+	sword4->setVisible(false);
 	bombPos.y = 100;
 	
 	//---------------------------------------------------------------------------
@@ -147,77 +150,86 @@ Ogre::Vector3 Sinbad::calculateDir()
 
 void Sinbad::creaAnimacionBomba()
 {
-	//Atributos
-	int duracionBomb = 10;
-	Ogre::Real longitudPasoBomb = duracionBomb / 5.0;
-	Ogre::Real longitudPasoBomb2 = 1000;
-	Ogre::Vector3 src(0, 0, 1);
-	int longitud = 300;
-	int longitudInf = 1000000;
-	Ogre::TransformKeyFrame * kf2;
-	Ogre::Vector3 temp;
-	Ogre::Quaternion orRot;
+	if (!haBombeado) {
+		//Atributos
+		int duracionBomb = 12;
+		int caida = 2;
+		Ogre::Real longitudPasoBomb = duracionBomb / 5.0;
+		Ogre::Real longitudPasoBomb2 = 1000;
+		Ogre::Vector3 src(0, 0, 1);
+		int longitud = 300;
+		int longitudInf = 1000000;
+		Ogre::TransformKeyFrame * kf2;
+		Ogre::Vector3 temp;
+		Ogre::Quaternion orRot;
 
-	//Funcion
-	//---------------------------------------------------------------------------
-	//Animacion movimiento hacia la Bomba-----------------------------------------
-	//---------------------------------------------------------------------------
+		//Funcion
+		//---------------------------------------------------------------------------
+		//Animacion movimiento hacia la Bomba-----------------------------------------
+		//---------------------------------------------------------------------------
 
-	animationBomb = mSinbadNode->getCreator()->createAnimation("anMovBomb", duracionBomb);
-	Ogre::NodeAnimationTrack* track2 = animationBomb->createNodeTrack(0);
-	orRot = mSinbadNode->getOrientation();
+		animationBomb = mSinbadNode->getCreator()->createAnimation("anMovBombSinbad", duracionBomb);
+		Ogre::NodeAnimationTrack* track2 = animationBomb->createNodeTrack(0);
+		orRot = mSinbadNode->getOrientation();
 
-	keyframePos = mSinbadNode->getPosition();
+		keyframePos = mSinbadNode->getPosition();
 
-	track2->setAssociatedNode(mSinbadNode);
+		track2->setAssociatedNode(mSinbadNode);
 
-	//Posicion 0
-	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 0);
-	kf2->setTranslate(keyframePos);
-	kf2->setRotation(orRot);
-	runBase->setEnabled(true);
-	runTop->setEnabled(true);
+		//Posicion 0
+		kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 0);
+		kf2->setTranslate(keyframePos);
+		kf2->setRotation(orRot);
+		runBase->setEnabled(true);
+		runTop->setEnabled(true);
 
-	//Posicion 1
-	temp = calculateDir();
-	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 1);
-	keyframePos += Ogre::Vector3::UNIT_Z;
-	kf2->setTranslate(keyframePos);
-	Ogre::Quaternion quat4 = src.getRotationTo(temp);
-	kf2->setRotation(quat4);
+		//Posicion 1
+		temp = calculateDir();
+		kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 1);
+		keyframePos += Ogre::Vector3::UNIT_Z;
+		kf2->setTranslate(keyframePos);
+		Ogre::Quaternion quat4 = src.getRotationTo(temp);
+		kf2->setRotation(quat4);
 
-	//Posicion 2
-	temp.normalise();
-	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 2);
-	keyframePos += temp * longitud;
-	kf2->setTranslate(keyframePos); 
-	kf2->setRotation(quat4);
+		//Posicion 2
+		temp.normalise();
+		kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 2);
+		keyframePos += temp * longitud;
+		deadPos = keyframePos;
+		kf2->setTranslate(keyframePos);
+		kf2->setRotation(quat4);
 
-	//Posicion 3
-	kf2 = track2->createNodeKeyFrame(longitudPasoBomb * 3);
-	keyframePos += Ogre::Vector3::UNIT_Z;
-	keyframePos.y = 0;
-	kf2->setTranslate(keyframePos);
-	Ogre::Quaternion quat5 = src.getRotationTo(Ogre::Vector3(0, 1, 0));
-	kf2->setRotation(quat5);
+		//Posicion 3
+		kf2 = track2->createNodeKeyFrame(caida * 3);
+		keyframePos += Ogre::Vector3::UNIT_Z;
+		keyframePos.y = 0;
+		kf2->setTranslate(keyframePos);
+		Ogre::Quaternion quat5 = src.getRotationTo(Ogre::Vector3(0, 1, 0));
+		kf2->setRotation(quat5);
 
 
-	//Posicion 4
-	kf2 = track2->createNodeKeyFrame(longitudPasoBomb2 * 4);
-	keyframePos += Ogre::Vector3::UNIT_X * longitudInf;
-	kf2->setTranslate(keyframePos);
-	kf2->setRotation(quat5);
+		//Posicion 4
+		kf2 = track2->createNodeKeyFrame(longitudPasoBomb2 * 4);
+		keyframePos += Ogre::Vector3::UNIT_X * longitudInf;
+		kf2->setTranslate(keyframePos);
+		kf2->setRotation(quat5);
 
-	animationBomb->setInterpolationMode(Ogre::Animation::IM_LINEAR);
+		animationBomb->setInterpolationMode(Ogre::Animation::IM_LINEAR);
 
-	animationBombState = mSinbadNode->getCreator()->createAnimationState("anMovBomb");
+		animationBombState = mSinbadNode->getCreator()->createAnimationState("anMovBombSinbad");
 
-	animationBombState->setLoop(false);
-	animationBombState->setEnabled(true);
+		animationBombState->setLoop(false);
+		animationBombState->setEnabled(true);
 
-	//---------------------------------------------------------------------------
-	//Animacion movimiento hacia la Bomba FIN------------------------------------
-	//---------------------------------------------------------------------------
+		//---------------------------------------------------------------------------
+		//Animacion movimiento hacia la Bomba FIN------------------------------------
+		//---------------------------------------------------------------------------
+
+		haBombeado = true;
+	}
+
+	else 
+		return;
 }
 
 bool Sinbad::keyPressed(const OgreBites::KeyboardEvent & evt)
@@ -238,10 +250,7 @@ bool Sinbad::keyPressed(const OgreBites::KeyboardEvent & evt)
 
 	case SDLK_b:
 
-		creaAnimacionBomba();
-
-		animationState->setEnabled(false);
-		dance->setEnabled(false);
+		hanChocado();
 
 		return true;
 
@@ -273,5 +282,14 @@ void Sinbad::frameRendered(const Ogre::FrameEvent & evt)
 		if (animationBombState->getEnabled()) {
 			animationBombState->addTime(evt.timeSinceLastFrame);
 		}
+	}
+
+	if (mSinbadNode->getPosition() == deadPos) {
+		muerto();
+	}
+	
+	if (mSinbadNode->getPosition() == orPos) {
+		runBase->setEnabled(true);
+		runTop->setEnabled(true);
 	}
 }

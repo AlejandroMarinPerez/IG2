@@ -11,8 +11,16 @@ public:
 	bool keyPressed(const OgreBites::KeyboardEvent& evt);
 	void frameRendered(const Ogre::FrameEvent& evt);
 
+	Ogre::SceneNode* getCuerpo() {
+		return mCuerpo;
+	}
+
 	void haChocado() {
-		mBB8->getAttachedObjects()[0]->setVisible(false);
+		mCuerpo->getAttachedObjects()[0]->setVisible(false);
+		mCabesa->getAttachedObjects()[0]->setVisible(false);
+		mNariz->getAttachedObjects()[0]->setVisible(false);
+		mOmbligo->getAttachedObjects()[0]->setVisible(false);
+		isActivo = false;
 	}
 
 protected:
@@ -23,6 +31,7 @@ protected:
 	Ogre::SceneNode* mCuello = nullptr;
 	Ogre::SceneNode* mNariz = nullptr;
 	Ogre::SceneNode* mOmbligo = nullptr;
+	bool isActivo = true;
 
 	void ToyMovement();
 };

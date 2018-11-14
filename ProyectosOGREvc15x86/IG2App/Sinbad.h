@@ -12,6 +12,20 @@ public:
 	~Sinbad();
 	Ogre::Vector3 calculateDir();
 	void creaAnimacionBomba();
+	void hanChocado() {
+		creaAnimacionBomba();
+
+		animationState->setEnabled(false);
+		dance->setEnabled(false);
+		sword4->setVisible(true);
+		sword2->setVisible(false);
+	}
+
+	void muerto() {
+		runBase->setEnabled(false);
+		runTop->setEnabled(false);
+		dead = true;
+	}
 
 	bool keyPressed(const OgreBites::KeyboardEvent& evt);
 	void frameRendered(const Ogre::FrameEvent& evt);
@@ -31,6 +45,11 @@ protected:
 	Ogre::Entity* sword1 = nullptr;
 	Ogre::Entity* sword2 = nullptr;
 	Ogre::Entity* sword3 = nullptr;
+	Ogre::Entity* sword4 = nullptr;
+	Ogre::Vector3 deadPos;
+	Ogre::Vector3 orPos = Ogre::Vector3(400, 100, -300);
+	bool dead = false;
 	bool dancing = false;
+	bool haBombeado = false;
 };
 

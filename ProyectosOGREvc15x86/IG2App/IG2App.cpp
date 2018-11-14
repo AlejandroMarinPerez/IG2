@@ -11,6 +11,9 @@
 
 using namespace Ogre;
 
+Bomb* bomba = nullptr;
+Toy* toy = nullptr;
+Sinbad* sinbad = nullptr;
 
 
 bool IG2App::keyPressed(const OgreBites::KeyboardEvent& evt)
@@ -21,6 +24,18 @@ bool IG2App::keyPressed(const OgreBites::KeyboardEvent& evt)
   }
   else if (evt.keysym.sym == SDLK_p) {
 	  mPlaneNode->pitch(Ogre::Degree(1.0));
+  }
+  else if (evt.keysym.sym == SDLK_c) {
+	  camOgre = !camOgre;
+	  if (camOgre) {
+		  mCamMgr->setTarget(mSinbadNode);
+		  mCamMgr->setYawPitchDist(Radian(0), Degree(30), 100);
+	  }
+	  else {
+		  mCamNode->setPosition(0, 0, 1000);
+		  mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+		  mCamMgr->setTarget(mSM->getRootSceneNode());
+	  }
   }
   
   return true;
@@ -185,7 +200,7 @@ void IG2App::setupScene(void)
   Ogre::Vector3 bombPos = mBombNode->getPosition();
   //mSinbadNode = mSM->getRootSceneNode()->createChildSceneNode("nSinbad");
   mSinbadNode = mPlaneNode->createChildSceneNode("nSinbad");
-  Sinbad* sinbad = new Sinbad(mSinbadNode, bombPos);
+  sinbad = new Sinbad(mSinbadNode, bombPos);
   addInputListener(sinbad);
   
   
@@ -201,10 +216,6 @@ void IG2App::setupScene(void)
   toy = new Toy(mToyNode);
   addInputListener(toy);
 
-  toySphere = mToyNode->getAttachedObjects()[0]->getWorldBoundingSphere();
-  bombSphere = mBombNode->getAttachedObjects()[0]->getWorldBoundingSphere();
-
-
   //------------------------------------------------------------------------
 
   //Esto mueve la cámara. Hace que se gire con el ratón
@@ -213,8 +224,6 @@ void IG2App::setupScene(void)
   addInputListener(mCamMgr);
   mCamMgr->setStyle(OgreBites::CS_ORBIT);  
   
-  //mCamMgr->setTarget(mSinbadNode);  
-  //mCamMgr->setYawPitchDist(Radian(0), Degree(30), 100);
 
   //------------------------------------------------------------------------
 
@@ -224,9 +233,14 @@ void IG2App::setupScene(void)
 
 void IG2App::frameRendered(const Ogre::FrameEvent & evt)
 {
+	toySphere = toy->getCuerpo()->getAttachedObjects()[0]->getWorldBoundingSphere();
+	bombSphere = mBombNode->getAttachedObjects()[0]->getWorldBoundingSphere();
+
+
 	if (bomba != nullptr && toy != nullptr && toySphere.intersects(bombSphere)) {
 		bomba->haChocado();
 		toy->haChocado();
+		sinbad->hanChocado();
 	}
 }
 

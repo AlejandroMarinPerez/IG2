@@ -8,7 +8,7 @@ Toy::Toy(Ogre::SceneNode* mToy)
 		
 		mBB8 = mToy;
 
-		mBB8->setPosition(100, size*100, 0);
+		mBB8->setPosition(600, size*100, 0);
 
 		//Cuerpo
 		Ogre::Entity* entCuer = mBB8->getCreator()->createEntity("sphere.mesh");
@@ -88,7 +88,7 @@ bool Toy::keyPressed(const OgreBites::KeyboardEvent & evt)
 
 void Toy::frameRendered(const Ogre::FrameEvent & evt)
 {
-	if (moves) {
+	if (moves && isActivo) {
 		mCabesa->yaw(Ogre::Degree(1.0));
 		mCuerpo->pitch(Ogre::Degree(1.0));
 		Ogre::Vector3 pos = mBB8->getPosition();
