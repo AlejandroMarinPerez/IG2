@@ -218,6 +218,19 @@ void IG2App::setupScene(void)
 
   //------------------------------------------------------------------------
 
+
+  //------------------------------------------------------------------------
+
+  //SKYPLANE
+  //MeshManager::getSingleton().createPlane("mPlane1080x800.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::UNIT_Y, 0), 1080, 800, 100, 80, true, 1, 1.0, 1.0, Vector3::NEGATIVE_UNIT_Z);
+
+  mSkyPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nSkyPlane");
+  Plane skyPlane;
+
+  mSM->setSkyPlane(true, skyPlane, "IG2App/ejemploShaderE2", 1000, 10, true, 0, 1, 1, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+  //------------------------------------------------------------------------
+
   //Esto mueve la cámara. Hace que se gire con el ratón
 
   mCamMgr = new OgreBites::CameraMan(mCamNode);

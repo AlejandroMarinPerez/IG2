@@ -2,11 +2,17 @@
 
 in vec4 vertex; // atributos de los vértices a procesar
 in vec2 uv0;
+in vec2 uv1;
 
 uniform mat4 modelViewProjMat; // constantes de programa
+uniform float time;
 out vec2 vUv0; // out del vertex shader
+out vec2 vUv1;
 
 void main() {
 vUv0 = uv0;
+vUv1 = uv1;
+vUv1.s = vUv0.s - time;
+vUv1.t = vUv0.t - time;
 gl_Position = modelViewProjMat * vertex; // obligatorio
 }
