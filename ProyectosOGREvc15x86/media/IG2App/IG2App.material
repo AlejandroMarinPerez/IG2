@@ -1,3 +1,24 @@
+vertex_program vertexShaderE2 glsl
+{
+    source vertexShaderE2glsl.txt // archivo del código
+    default_params 
+    {
+        param_named_auto modelViewProjMat worldviewproj_matrix
+    }
+}
+
+fragment_program fragmentShaderE2 glsl
+{
+    source fragmentShaderE2glsl.txt 
+    default_params 
+    {
+        param_named textura1 int 0 
+        param_named textura2 int 1
+        //param_named FB float 0.5
+        //param_named intLuz float 1.0
+    }
+}
+
 material IG2App/PlaneMaterial
 {
     technique
@@ -41,28 +62,7 @@ material IG2App/Smoke
     }
 }
 
-vertex_program vertexShaderE2 glsl
-{
-    source vertexShaderE2glsl.txt // archivo del código
-    default_params // valores para las variable uniform
-    {
-        param_named_auto modelViewProjMat worldviewproj_matrix
-    }
-}
-
-fragment_program fragmentShaderE2 glsl
-{
-    source fragmentShaderE2glsl.txt // archivo
-    default_params // valores para las variable uniform
-    {
-        param_named textura1 int 0 // unidad de textura
-        param_named textura2 int 1
-        //param_named FB float 0.5
-        //param_named intLuz float 1.0
-    }
-}
-
-material IG2App/ejemploShadersE2 
+material IG2App/ejemploShaderE2 
 {
     technique 
     {
@@ -81,15 +81,15 @@ material IG2App/ejemploShadersE2
             texture_unit texture1 {
 
                 texture 1d_debug.png 2d // archivo
-                tex_address_mode clamp
-                filtering bilinear
+                //tex_address_mode clamp
+                //filtering bilinear
             
             }
 
             texture_unit texture2{
 
                 texture flare.png 2d // archivo
-                tex_address_mode wrap
+                tex_address_mode clamp
             
             }
         } 
