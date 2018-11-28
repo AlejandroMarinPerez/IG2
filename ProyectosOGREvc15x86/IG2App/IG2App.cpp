@@ -226,7 +226,7 @@ void IG2App::setupScene(void)
 
   mSkyPlaneNode = mSM->getRootSceneNode()->createChildSceneNode("nSkyPlane");
 
-  mSM->setSkyPlane(true, Plane(Vector3::UNIT_Z, -200), "IG2App/ejemploShaderE2", 1, 1, true, 1, 100, 100); // , ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+  mSM->setSkyPlane(true, Plane(Vector3::UNIT_Z, -20), "IG2App/mandelbrot1", 1, 1, true, 1, 100, 100); // , ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
   //------------------------------------------------------------------------
 

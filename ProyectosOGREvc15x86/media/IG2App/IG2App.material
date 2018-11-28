@@ -8,6 +8,15 @@ vertex_program vertexShaderE2 glsl
     }
 }
 
+vertex_program MandelbrotVS1 glsl
+{
+    source MandelbrotVS1.txt
+    default_params
+    {
+        param_named_auto modelViewProjMat worldviewproj_matrix
+    }
+}
+
 fragment_program fragmentShaderE2 glsl
 {
     source fragmentShaderE2glsl.txt 
@@ -17,6 +26,18 @@ fragment_program fragmentShaderE2 glsl
         param_named textura2 int 1
         //param_named FB float 0.5
         //param_named intLuz float 1.0
+    }
+}
+
+fragment_program MandelbrotFS1 glsl
+{
+    source MandelbrotFS1.txt
+    default_params
+    {
+        param_named textura1 int 0
+        param_named InColor float4 0.5 0.5 1.0 1.0
+        param_named OutColor1 float4 0.5 0.25 1.0 1.0
+        param_named OutColot2 float4 1.0 0.5 0.25 1.0
     }
 }
 
@@ -95,4 +116,28 @@ material IG2App/ejemploShaderE2
             }
         } 
     } 
+}
+
+material IG2App/mandelbrot1 
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref MandelbrotVS1
+            { //Params -> default_params
+            }
+
+            fragment_program_ref MandelbrotFS1
+            { //Params -> default_params
+            }
+
+            texture_unit texture1{
+
+                texture flare.png 2d // archivo
+                tex_address_mode clamp
+            
+            }
+        }
+    }
 }
