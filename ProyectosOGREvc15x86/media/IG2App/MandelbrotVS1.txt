@@ -6,6 +6,7 @@ in vec2 uv0;
 
 //matriz de transdormacion
 uniform mat4 modelViewProjMat;
+uniform float tiempo;
 out vec2 vUv0;
 out vec2 vUv1;
 

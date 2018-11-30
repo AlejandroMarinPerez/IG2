@@ -14,6 +14,16 @@ vertex_program MandelbrotVS1 glsl
     default_params
     {
         param_named_auto modelViewProjMat worldviewproj_matrix
+        param_named_auto tiempo time_0_1 50
+    }
+}
+
+vertex_program vertexShaderBroken1 glsl
+{
+    source vertexShaderBroken1.txt // archivo del código
+    default_params 
+    {
+        param_named_auto modelViewProjMat worldviewproj_matrix
     }
 }
 
@@ -37,7 +47,19 @@ fragment_program MandelbrotFS1 glsl
         param_named textura1 int 0
         param_named InColor float4 0.5 0.5 1.0 1.0
         param_named OutColor1 float4 0.5 0.25 1.0 1.0
-        param_named OutColot2 float4 1.0 0.5 0.25 1.0
+        param_named OutColor2 float4 1.0 0.5 0.25 1.0
+    }
+}
+
+fragment_program fragmentShaderBroken1 glsl
+{
+    source fragmentShaderBroken1.txt 
+    default_params 
+    {
+        param_named textura1 int 0 
+        param_named textura2 int 1
+        //param_named FB float 0.5
+        //param_named intLuz float 1.0
     }
 }
 
@@ -135,6 +157,43 @@ material IG2App/mandelbrot1
             texture_unit texture1{
 
                 texture flare.png 2d // archivo
+                tex_address_mode clamp
+            
+            }
+        }
+    }
+}
+
+material IG2App/brokenText
+{
+    technique
+    {
+        pass
+        {
+            cull_hardware none
+            cull_software none
+            
+            vertex_program_ref vertexShaderE2 glsl
+            { // params ‐> default_params
+
+            }
+
+            fragment_program_ref fragmentShaderE2 glsl
+            { // params ‐> default_params
+
+            }
+
+            texture_unit texture1 {
+
+                texture corrosion.jpg 2d // archivo
+                //tex_address_mode clamp
+                //filtering bilinear
+            
+            }
+
+            texture_unit texture2{
+
+                texture spaceSky.jpg 2d // archivo
                 tex_address_mode clamp
             
             }

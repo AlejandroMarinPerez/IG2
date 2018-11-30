@@ -14,6 +14,7 @@ Toy::Toy(Ogre::SceneNode* mToy)
 		Ogre::Entity* entCuer = mBB8->getCreator()->createEntity("sphere.mesh");
 		mCuerpo = mBB8->createChildSceneNode("nCuerpo");
 		mCuerpo->attachObject(entCuer);
+		entCuer->setMaterialName("IG2App/brokenText");
 
 		mCuerpo->setScale(size, size, size);
 
@@ -38,6 +39,7 @@ Toy::Toy(Ogre::SceneNode* mToy)
 		Ogre::Entity* entCab = mBB8->getCreator()->createEntity("sphere.mesh");
 		mCabesa = mBB8->createChildSceneNode("nCabesa");
 		mCabesa->attachObject(entCab);
+		entCab->setMaterialName("IG2App/brokenText");
 
 		mCabesa->setScale(size / 2, size / 2, size / 2);
 		mCabesa->setPosition(0, size*150, 0);
