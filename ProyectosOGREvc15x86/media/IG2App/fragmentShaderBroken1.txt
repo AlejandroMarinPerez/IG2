@@ -1,35 +1,35 @@
 #version 330 core
 
 uniform sampler2D textura1; // tipo sampler2D para texturas 2D
-uniform sampler2D textura2; 
-//uniform float FB;  // blending factor
-//uniform float intLuz;
+uniform vec4 InColor;
+uniform vec4 OutColor;
+//uniform sampler2D textura2; 
+uniform float FB;  // blending factor
+uniform float intLuz;
 
 in vec2 vUv0; // out del vertex shader
-in vec2 vUv1; 
 out vec4 fFragColor; // out del fragment shader
 
 void main() {
 
-    vec3 color1 = vec3(texture(textura1, vUv1));
-    vec3 color2 = vec3(texture(textura2, vUv0));
-
-    
-    if(gl_FrontFacing)
+    vec3 bujeros1 = vec3(texture(textura1, vUv0));
+    if (bujeros1.r > 0.5)
     {
-        if (color1.r >= 0.5 || color1.r >= 0.6)
-        {
-            discard;
-        }
-        fFragColor = vec4(color1, 1.0);
+        discard;
     }
     else
     {
-        if (color1.r >= 0.5 || color1.r >= 0.6)
+        if(gl_FrontFacing)
         {
-            discard;
+            OutColor *= intLuz;
+            vec4 color = mix(OutColor, FB);
+            fFragColor = color;
         }
-        fFragColor = vec4(color2, 1.0);
+        else
+        {
+            InColor *= intLuz;
+            vec4 color = mix(InColor, FB);
+            fFragColor = color;
+        }
     }
-
 }

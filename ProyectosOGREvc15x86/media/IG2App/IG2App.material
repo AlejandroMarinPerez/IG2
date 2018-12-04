@@ -24,6 +24,8 @@ vertex_program vertexShaderBroken1 glsl
     default_params 
     {
         param_named_auto modelViewProjMat worldviewproj_matrix
+        param_named_auto modelMat world_matrix
+        param_named_auto modelVertexMat imverse_transpose_world_matrix
     }
 }
 
@@ -33,7 +35,6 @@ fragment_program fragmentShaderE2 glsl
     default_params 
     {
         param_named textura1 int 0 
-        param_named textura2 int 1
         //param_named FB float 0.5
         //param_named intLuz float 1.0
     }
@@ -57,9 +58,10 @@ fragment_program fragmentShaderBroken1 glsl
     default_params 
     {
         param_named textura1 int 0 
-        param_named textura2 int 1
-        //param_named FB float 0.5
-        //param_named intLuz float 1.0
+        param_named InColor float4 0.5 0.5 1.0 1.0
+        param_named OutColor float4 0.5 0.25 1.0 1.0
+        param_named FB float 0.5
+        param_named intLuz light_diffuse_colour 0
     }
 }
 
@@ -173,12 +175,12 @@ material IG2App/brokenText
             cull_hardware none
             cull_software none
             
-            vertex_program_ref vertexShaderE2 glsl
+            vertex_program_ref vertexShaderBroken1 glsl
             { // params ‐> default_params
 
             }
 
-            fragment_program_ref fragmentShaderE2 glsl
+            fragment_program_ref fragmentShaderBroken1 glsl
             { // params ‐> default_params
 
             }
@@ -186,16 +188,7 @@ material IG2App/brokenText
             texture_unit texture1 {
 
                 texture corrosion.jpg 2d // archivo
-                //tex_address_mode clamp
-                //filtering bilinear
-            
-            }
-
-            texture_unit texture2{
-
-                texture spaceSky.jpg 2d // archivo
-                tex_address_mode clamp
-            
+              
             }
         }
     }
