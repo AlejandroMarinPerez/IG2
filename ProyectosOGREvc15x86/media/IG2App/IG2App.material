@@ -23,9 +23,9 @@ vertex_program vertexShaderBroken1 glsl
     source vertexShaderBroken1.txt // archivo del código
     default_params 
     {
-        param_named_auto modelViewProjMat worldviewproj_matrix
-        param_named_auto modelMat world_matrix
-        param_named_auto modelVertexMat imverse_transpose_world_matrix
+        param_named_auto projection worldviewproj_matrix
+        param_named_auto model world_matrix
+        param_named_auto view inverse_transpose_world_matrix
     }
 }
 
@@ -60,8 +60,8 @@ fragment_program fragmentShaderBroken1 glsl
         param_named textura1 int 0 
         param_named InColor float4 0.5 0.5 1.0 1.0
         param_named OutColor float4 0.5 0.25 1.0 1.0
-        param_named FB float 0.5
-        param_named intLuz light_diffuse_colour 0
+        param_named lightDir light_position 0
+        param_named diffuseLight light_diffuse_colour 0
     }
 }
 

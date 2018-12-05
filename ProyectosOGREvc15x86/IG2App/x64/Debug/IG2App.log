@@ -4912,6 +4912,6 @@ c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\rtshadersystem\ogres
 c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\bites\ogresgtechniqueresolverlistener.h(47): warning C4275: non dll-interface class 'Ogre::MaterialManager::Listener' used as base for dll-interface class 'OgreBites::SGTechniqueResolverListener'
   c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\ogrematerialmanager.h(69): note: see declaration of 'Ogre::MaterialManager::Listener'
   c:\hlocal\ig2\ig2\proyectosogrevc15x86\ogresdk\include\ogre\bites\ogresgtechniqueresolverlistener.h(47): note: see declaration of 'OgreBites::SGTechniqueResolverListener'
-c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\toy.cpp(50): warning C4244: 'argument': conversion from 'double' to 'Ogre::Real', possible loss of data
+c:\hlocal\ig2\ig2\proyectosogrevc15x86\ig2app\toy.cpp(52): warning C4244: 'argument': conversion from 'double' to 'Ogre::Real', possible loss of data
   Generating Code...
 OgreMain.lib(OgreMain.dll) : fatal error LNK1112: module machine type 'x86' conflicts with target machine type 'x64'

@@ -1,14 +1,19 @@
 #version 330 core
 
+//Cosas de texturas y colores
 uniform sampler2D textura1; // tipo sampler2D para texturas 2D
 uniform vec4 InColor;
 uniform vec4 OutColor;
-//uniform sampler2D textura2; 
-uniform float FB;  // blending factor
-uniform float intLuz;
+
+//Cosas de la luz
+uniform vec3 lightDir;
+uniform vec3 diffuseLight;
 
 in vec2 vUv0; // out del vertex shader
-out vec4 fFragColor; // out del fragment shader
+in vec3 Normal;
+in TexCoords;
+
+out vec4 FragColor; // out del fragment shader
 
 void main() {
 
@@ -19,17 +24,18 @@ void main() {
     }
     else
     {
+        vec3 norm = normalize(Normal);
+        float diff = max(dot(norm, lightDir), 0.0);
+
         if(gl_FrontFacing)
         {
-            OutColor *= intLuz;
-            vec4 color = mix(OutColor, FB);
-            fFragColor = color;
+            vec3 diffuse = diffuseLight * diff * vec3(OutColor);
+            FragColor = vec4(diffuse, 1.0);
         }
         else
         {
-            InColor *= intLuz;
-            vec4 color = mix(InColor, FB);
-            fFragColor = color;
+            vec3 diffuse = diffuseLight * diff * vec3(InColor);
+            FragColor = vec4(diffuse, 1.0);
         }
     }
 }

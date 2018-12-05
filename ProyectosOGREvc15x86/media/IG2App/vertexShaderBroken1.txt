@@ -2,15 +2,21 @@
 
 in vec4 vertex; // atributos de los vertices a procesar
 in vec2 uv0;
+in vec4 aPos;
+in vec3 aNormal;
+in vec2 aTexCoords;
 
+uniform mat4 projection; // constantes de programa
+uniform mat4 model;
+uniform mat4 view;
 
-uniform mat4 modelViewProjMat; // constantes de programa
-uniform mat4 modelMat;
-uniform mat4 modelVertexMat;
-uniform float tiempo;
 out vec2 vUv0; // out del vertex shader
+out vec3 Normal;
+out vec2 TexCoords;
 
 void main() {
-vUv0 = uv0;
-gl_Position = modelViewProjMat * vertex; // obligatorio
+    vUv0 = uv0;
+    Normal = mat3(transpose(inverse(model))) * aNormal;
+    TexCoords = aTexCoords;
+    gl_Position = projection * view; 
 }
