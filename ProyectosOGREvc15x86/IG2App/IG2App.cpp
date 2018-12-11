@@ -108,6 +108,9 @@ void IG2App::setupScene(void)
 	Viewport* vp = getRenderWindow()->addViewport(cam);
 	//vp->setBackgroundColour(Ogre::ColourValue(1, 1, 1));
 
+	CompositorManager::getSingleton().addCompositor(vp, "Luminance");
+	CompositorManager::getSingleton().setCompositorEnabled(vp, "Luminance", true);
+
 	//Creamos la cámara del reflejo
   
 

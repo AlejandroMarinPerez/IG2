@@ -18,6 +18,8 @@
 #include <OgreRenderTargetListener.h>
 #include <OgreParticleSystem.h>
 #include <OgreSphere.h>
+#include <OgreCompositor.h>
+#include <OgreCompositorManager.h>
 
 class IG2App : public  OgreBites::IG2ApplicationContext, OgreBites::InputListener
 {

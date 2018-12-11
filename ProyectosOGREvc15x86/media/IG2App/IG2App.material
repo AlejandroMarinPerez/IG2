@@ -23,10 +23,14 @@ vertex_program vertexShaderBroken1 glsl
     source vertexShaderBroken1.txt // archivo del código
     default_params 
     {
-        param_named_auto projection worldviewproj_matrix
-        param_named_auto model world_matrix
-        param_named_auto view inverse_transpose_world_matrix
+        param_named_auto modelViewProjMat worldviewproj_matrix
+        param_named_auto vertexMat inverse_transpose_world_matrix
     }
+}
+
+vertex_program LuminanceVS glsl
+{
+    source vertexShaderE2glsl.txt // podemos reutilizar
 }
 
 fragment_program fragmentShaderE2 glsl
@@ -58,10 +62,19 @@ fragment_program fragmentShaderBroken1 glsl
     default_params 
     {
         param_named textura1 int 0 
-        param_named InColor float4 0.5 0.5 1.0 1.0
+        param_named InColor float4 1.0 0.5 0.25 1.0
         param_named OutColor float4 0.5 0.25 1.0 1.0
-        param_named lightDir light_position 0
-        param_named diffuseLight light_diffuse_colour 0
+        param_named_auto lightDir light_position 0
+        param_named_auto diffuseLight light_diffuse_colour 0
+    }
+}
+
+
+fragment_program LuminancePS glsl
+{
+    source LuminancePS.txt
+    default_params {
+        param_named RTT0 int 0 // textura con la escena
     }
 }
 
@@ -193,3 +206,31 @@ material IG2App/brokenText
         }
     }
 }
+
+material IG2App/LuminancePS 
+{
+    technique 
+    {
+        pass 
+        {
+            depth_check off // desactivar el depth‐buffer
+            depth_write off
+
+            vertex_program_ref LuminanceVS 
+            {
+            }
+
+            fragment_program_ref LuminancePS 
+            {
+            }
+
+            texture_unit RTT0
+            {
+            // sin imagen de archivo ‐> previous render target
+            filtering none // tiene la resolución del viewport
+            }
+        } 
+    } 
+}
+
+
