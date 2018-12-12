@@ -46,6 +46,7 @@ protected:
   Ogre::SceneNode* mPanelNode = nullptr;
   Ogre::SceneNode* mBombNode = nullptr;
   Ogre::ParticleSystem* pSys = nullptr;
+  Ogre::Viewport* vp = nullptr;
 
   Ogre::Sphere toySphere;
   Ogre::Sphere bombSphere;
@@ -53,6 +54,8 @@ protected:
   OgreBites::CameraMan* mCamMgr = nullptr;
 
   bool camOgre = false;
+  bool compositor = false;
+  int timeComp = 0;
  
 };
 

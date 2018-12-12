@@ -30,7 +30,20 @@ vertex_program vertexShaderBroken1 glsl
 
 vertex_program LuminanceVS glsl
 {
-    source vertexShaderE2glsl.txt // podemos reutilizar
+    source vertexShaderE2Lumglsl.txt // podemos reutilizar
+    default_params 
+    {
+        param_named_auto modelViewProjMat worldviewproj_matrix
+    }
+}
+
+vertex_program InterferenceVS glsl
+{
+    source vertexShaderE2Lumglsl.txt // podemos reutilizar
+    default_params 
+    {
+        param_named_auto modelViewProjMat worldviewproj_matrix
+    }
 }
 
 fragment_program fragmentShaderE2 glsl
@@ -73,6 +86,14 @@ fragment_program fragmentShaderBroken1 glsl
 fragment_program LuminancePS glsl
 {
     source LuminancePS.txt
+    default_params {
+        param_named RTT0 int 0 // textura con la escena
+    }
+}
+
+fragment_program InterferencePS glsl
+{
+    source InterferencePS.txt
     default_params {
         param_named RTT0 int 0 // textura con la escena
     }
@@ -221,6 +242,32 @@ material IG2App/LuminancePS
             }
 
             fragment_program_ref LuminancePS 
+            {
+            }
+
+            texture_unit RTT0
+            {
+            // sin imagen de archivo ‐> previous render target
+            filtering none // tiene la resolución del viewport
+            }
+        } 
+    } 
+}
+
+material IG2App/InterferencePS 
+{
+    technique 
+    {
+        pass 
+        {
+            depth_check off // desactivar el depth‐buffer
+            depth_write off
+
+            vertex_program_ref InterferenceVS
+            {
+            }
+
+            fragment_program_ref InterferencePS 
             {
             }
 

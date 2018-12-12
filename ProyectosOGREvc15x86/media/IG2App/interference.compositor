@@ -1,4 +1,4 @@
-compositor Luminance { // nombre
+compositor Interference { // nombre
     technique {
 
         texture RTT0 target_width target_height PF_R8G8B8A8
@@ -9,7 +9,7 @@ compositor Luminance { // nombre
         target_output { 		// Final render output
             input none 		// start without initializing
             pass render_quad { 	// Render a fullscreen quad with
-                material IG2App/LuminancePS // the luminance material
+                material IG2App/InterferencePS // the luminance material
                 input 0 RTT0 	// texture unit 0 <-> texture RTT0
             } 
         } 

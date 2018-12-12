@@ -22,6 +22,10 @@ bool IG2App::keyPressed(const OgreBites::KeyboardEvent& evt)
   {
     getRoot()->queueEndRendering();
   }
+  else if (evt.keysym.sym == SDLK_i) {
+	  CompositorManager::getSingleton().setCompositorEnabled(vp, "Interference", true);
+	  compositor = true;
+  }
   else if (evt.keysym.sym == SDLK_p) {
 	  mPlaneNode->pitch(Ogre::Degree(1.0));
   }
@@ -105,11 +109,12 @@ void IG2App::setupScene(void)
 	mCamNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 	
 	// and tell it to render into the main window
-	Viewport* vp = getRenderWindow()->addViewport(cam);
+	vp = getRenderWindow()->addViewport(cam);
 	//vp->setBackgroundColour(Ogre::ColourValue(1, 1, 1));
 
-	CompositorManager::getSingleton().addCompositor(vp, "Luminance");
-	CompositorManager::getSingleton().setCompositorEnabled(vp, "Luminance", true);
+	CompositorManager::getSingleton().addCompositor(vp, "Interference");
+	CompositorManager::getSingleton().setCompositorEnabled(vp, "Interference", false);
+
 
 	//Creamos la cámara del reflejo
   
@@ -256,6 +261,15 @@ void IG2App::frameRendered(const Ogre::FrameEvent & evt)
 		bomba->haChocado();
 		toy->haChocado();
 		sinbad->hanChocado();
+	}
+
+	if (compositor) {
+		timeComp++;
+		if (timeComp == 160) {
+			CompositorManager::getSingleton().setCompositorEnabled(vp, "Interference", false);
+			compositor = false;
+			timeComp = 0;
+		}
 	}
 }
 
