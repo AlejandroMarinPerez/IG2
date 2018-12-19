@@ -12,9 +12,9 @@ out vec2 vUv1;
 
 void main(){
     vUv0 = uv0;
-    vUv1.s = vUv0.s - 1.2;
-    vUv1.t = vUv0.t - 1.2;
-    vUv1.s = vUv0.s * tiempo;
-    vUv1.t = vUv0.t * tiempo;
+    vUv1.s = vUv0.s - 0.5;
+    vUv1.t = vUv0.t - 0.5;
+    vUv1.s = vUv1.s * tiempo;
+    vUv1.t = vUv1.t * tiempo;
     gl_Position = modelViewProjMat * vertex;
 }
